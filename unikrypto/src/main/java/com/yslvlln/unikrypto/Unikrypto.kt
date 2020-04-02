@@ -18,7 +18,7 @@ class Unikrypto {
         try {
             val ciphertext = ls?.cryptoSecretBoxEasy(message, nonce, secretKey)
             return ciphertext
-        } catch (e: Exception) {
+        } catch (e: SodiumException) {
             e.printStackTrace()
             return null
         }
@@ -28,7 +28,15 @@ class Unikrypto {
         try {
             val plaintext = ls?.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
             return plaintext
-        } catch (e: Exception) {
+        } catch (e: SodiumException) {
+            e.printStackTrace()
+            return null
+        }
+    }
+    fun generateNonce(): ByteArray? {
+        try {
+            return ls?.randomBytesBuf(SecretBox.NONCEBYTES)
+        } catch (e: SodiumException) {
             e.printStackTrace()
             return null
         }
