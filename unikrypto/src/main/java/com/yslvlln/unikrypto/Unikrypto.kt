@@ -13,29 +13,23 @@ class Unikrypto {
     fun initSodium() : LazySodiumAndroid {
         return ls ?: LazySodiumAndroid(SodiumAndroid())
     }
-    fun krypted(secretKey: Key, message: String): String? {
+    fun krypted(publicKey: Key, secretKey: Key,  message: String): String? {
+        val keyPair = KeyPair(publicKey, secretKey)
         val nonce = ls?.randomBytesBuf(SecretBox.NONCEBYTES)
         try {
-            val ciphertext = ls?.cryptoSecretBoxEasy(message, nonce, secretKey)
+            val ciphertext = ls?.cryptoBoxEasy(message, nonce, keyPair)
             return ciphertext
         } catch (e: SodiumException) {
             e.printStackTrace()
             return null
         }
     }
-    fun deckypted(secretKey: Key, ciphertext: String): String? {
+    fun deckypted(publicKey: Key, secretKey: Key, ciphertext: String): String? {
+        val keyPair = KeyPair(publicKey, secretKey)
         val nonce = ls?.randomBytesBuf(SecretBox.NONCEBYTES)
         try {
-            val plaintext = ls?.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
+            val plaintext = ls?.cryptoBoxOpenEasy(ciphertext, nonce, keyPair)
             return plaintext
-        } catch (e: SodiumException) {
-            e.printStackTrace()
-            return null
-        }
-    }
-    fun generateKey(): Key? {
-        try {
-            return ls?.cryptoSecretBoxKeygen()
         } catch (e: SodiumException) {
             e.printStackTrace()
             return null
