@@ -33,9 +33,9 @@ class Unikrypto {
             return null
         }
     }
-    fun generateNonce(): ByteArray? {
+    fun generateKey(): Key? {
         try {
-            return ls?.randomBytesBuf(SecretBox.NONCEBYTES)
+            return ls?.cryptoSecretBoxKeygen()
         } catch (e: SodiumException) {
             e.printStackTrace()
             return null
