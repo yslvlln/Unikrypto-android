@@ -10,16 +10,12 @@ object Unikrypto {
     val instance = LazySodiumAndroid(SodiumAndroid())
 
     fun krypt(key: String, message: String): String? {
-        if (instance != null)
-            return "not null"
-        else
-            return "null"
+        val seckey = Key.fromPlainString(key)
+        return instance.cryptoSecretBoxEasy(message, ByteArray(24), seckey)
     }
 
     fun dekrypt(key: String, ciphertext: String): String? {
-        if (instance != null)
-            return "not null"
-        else
-            return "null"
+        val seckey = Key.fromPlainString(key)
+        return instance.cryptoSecretBoxOpenEasy(ciphertext, ByteArray(24), seckey)
     }
 }
