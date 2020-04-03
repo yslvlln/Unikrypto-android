@@ -13,9 +13,9 @@ object Unikrypto {
         instance = LazySodiumAndroid(SodiumAndroid())
     }
 
-    fun krypted(secretkey: Key, message: String, nonce: ByteArray): String? {
+    fun krypt(ls: LazySodiumAndroid, secretkey: Key, message: String): String? {
         try {
-            val ciphertext = instance!!.cryptoSecretBoxEasy(message, nonce, secretkey)
+            val ciphertext = ls.cryptoSecretBoxEasy(message, ByteArray(24), secretkey)
             return ciphertext
         } catch (e: SodiumException) {
             e.printStackTrace()
@@ -23,9 +23,9 @@ object Unikrypto {
         }
     }
 
-    fun deckypted(secretKey: Key, ciphertext: String, nonce: ByteArray): String? {
+    fun dekrypt(ls: LazySodiumAndroid, secretKey: Key, ciphertext: String): String? {
         try {
-            val plaintext = instance!!.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
+            val plaintext = ls.cryptoSecretBoxOpenEasy(ciphertext, ByteArray(24), secretKey)
             return plaintext
         } catch (e: SodiumException) {
             e.printStackTrace()
