@@ -8,8 +8,8 @@ import java.lang.Exception
 
 class Unikrypto {
     companion object {
-        private var ls: LazySodiumAndroid
-        init {
+        lateinit var ls: LazySodiumAndroid
+        fun init() {
             ls = LazySodiumAndroid(SodiumAndroid())
         }
         fun krypted(secretkey: Key,  message: String, nonce: ByteArray): String? {
