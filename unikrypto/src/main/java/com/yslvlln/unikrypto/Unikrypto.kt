@@ -8,14 +8,13 @@ import java.lang.Exception
 
 object Unikrypto {
     val instance = LazySodiumAndroid(SodiumAndroid())
+    val key = SecretKey.mKey
 
-    fun krypt(key: String, message: String): String? {
-        val seckey = Key.fromPlainString(key)
-        return instance.cryptoSecretBoxEasy(message, ByteArray(24), seckey)
+    fun krypt(message: String, nonce: ByteArray): String? {
+        return instance.cryptoSecretBoxEasy(message, nonce, key)
     }
 
-    fun dekrypt(key: String, ciphertext: String): String? {
-        val seckey = Key.fromPlainString(key)
-        return instance.cryptoSecretBoxOpenEasy(ciphertext, ByteArray(24), seckey)
+    fun dekrypt(ciphertext: String, nonce: ByteArray): String? {
+        return instance.cryptoSecretBoxOpenEasy(ciphertext, nonce, key)
     }
 }
