@@ -7,10 +7,15 @@ import com.goterl.lazycode.lazysodium.utils.Key
 import java.lang.Exception
 
 object Unikrypto {
-    val instance = LazySodiumAndroid(SodiumAndroid())
+    private var instance: LazySodiumAndroid? = null
+
+    fun init() {
+        instance = LazySodiumAndroid(SodiumAndroid())
+    }
+
     fun krypted(secretkey: Key, message: String, nonce: ByteArray): String? {
         try {
-            val ciphertext = instance.cryptoSecretBoxEasy(message, nonce, secretkey)
+            val ciphertext = instance!!.cryptoSecretBoxEasy(message, nonce, secretkey)
             return ciphertext
         } catch (e: SodiumException) {
             e.printStackTrace()
@@ -20,7 +25,7 @@ object Unikrypto {
 
     fun deckypted(secretKey: Key, ciphertext: String, nonce: ByteArray): String? {
         try {
-            val plaintext = instance.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
+            val plaintext = instance!!.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
             return plaintext
         } catch (e: SodiumException) {
             e.printStackTrace()
