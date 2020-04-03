@@ -7,11 +7,11 @@ object Unikrypto {
     private val instance = LazySodiumAndroid(SodiumAndroid())
     private val key = SecretKey.getKey()
 
-    fun krypt(message: String, nonce: ByteArray): String? {
-        return instance.cryptoSecretBoxEasy(message, nonce, key)
+    fun krypt(message: String): String? {
+        return instance.cryptoSecretBoxEasy(message, ByteArray(24), key)
     }
 
-    fun dekrypt(ciphertext: String, nonce: ByteArray): String? {
-        return instance.cryptoSecretBoxOpenEasy(ciphertext, nonce, key)
+    fun dekrypt(ciphertext: String): String? {
+        return instance.cryptoSecretBoxOpenEasy(ciphertext, ByteArray(24), key)
     }
 }
