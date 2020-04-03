@@ -12,11 +12,10 @@ class Unikrypto {
         init {
             ls = LazySodiumAndroid(SodiumAndroid())
         }
-        fun krypted(secretKey: String,  message: String, nonce: ByteArray): String? {
+        fun krypted(secretkey: Key,  message: String, nonce: ByteArray): String? {
             if (ls != null) {
-                val key = Key.fromPlainString(secretKey)
                 try {
-                    val ciphertext = ls.cryptoSecretBoxEasy(message, nonce, key)
+                    val ciphertext = ls.cryptoSecretBoxEasy(message, nonce, secretkey)
                     return ciphertext
                 } catch (e: SodiumException) {
                     e.printStackTrace()
@@ -26,11 +25,10 @@ class Unikrypto {
                 throw Exception("Error initialization")
 
         }
-        fun deckypted(secretKey: String, ciphertext: String, nonce: ByteArray): String? {
+        fun deckypted(secretKey: Key, ciphertext: String, nonce: ByteArray): String? {
             if (ls != null) {
-                val key = Key.fromPlainString(secretKey)
                 try {
-                    val plaintext = ls.cryptoSecretBoxOpenEasy(ciphertext, nonce, key)
+                    val plaintext = ls.cryptoSecretBoxOpenEasy(ciphertext, nonce, secretKey)
                     return plaintext
                 } catch (e: SodiumException) {
                     e.printStackTrace()
