@@ -7,7 +7,7 @@ object SecretKey {
     private var mKey: Key? = null
 
     fun setKey(key: String) {
-        mKey = Key.fromPlainString(key)
+        mKey = Key.fromHexString(key)
     }
 
     fun getKey(): Key {
