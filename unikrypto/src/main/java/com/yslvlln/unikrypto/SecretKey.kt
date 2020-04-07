@@ -4,7 +4,7 @@ import com.goterl.lazycode.lazysodium.utils.Key
 import java.lang.Exception
 
 object SecretKey {
-    private var mKey: Key? = null
+    var mKey: Key? = null
 
     fun setKey(key: String) {
         mKey = Key.fromHexString(key)
